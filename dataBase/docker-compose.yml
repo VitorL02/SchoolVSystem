@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  postgres:
+    container_name: schoolvDB
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: "123"
+    volumes:
+      - postgres-vol:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5000:5432"
+
+volumes:
+  postgres-vol:
