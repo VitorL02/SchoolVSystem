@@ -40,7 +40,7 @@ public class UsuarioService implements UserDetailsService {
             String encodePassword = passwordEncoder.encode(registroUsuarioDTO.getSenha());
             Usuario usuario = new Usuario(registroUsuarioDTO.getEmail(),encodePassword);
             usuario = usuarioRepository.save(usuario);
-            roleRepository.save(new Roles(usuario, UserRoles.USER.getCodigoRole()));
+            roleRepository.save(new Roles(usuario, UserRoles.USER.getCodigoRole(),true));
 
         }catch (Exception e){
             throw new ExceptionGenerica("Erro ao cadastrar usuario ",e);

@@ -28,7 +28,7 @@ public class Usuario  implements UserDetails {
     private String senha;
 
     @OneToOne
-    @JoinColumn(name = "id",referencedColumnName = "id_usuario",nullable = false,insertable = false,updatable = false)
+    @JoinColumn(name = "id",referencedColumnName = "id_usuario")
     private Roles role;
 
     public Usuario(String login, String senha) {
@@ -38,6 +38,11 @@ public class Usuario  implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(role != null && role.getRoles().equalsIgnoreCase("PROFESSOR")){
+            return List.of(new SimpleGrantedAuthority("ROLE_STAFF"));
+        }else if(role != null && role.getRoles().equalsIgnoreCase("ADMIN")) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        }
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 

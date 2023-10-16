@@ -25,10 +25,13 @@ public class Roles {
     @Column(name = "role_usuario")
     private String roles;
 
+    @Column(name = "usuario_ativo")
+    private boolean isUsuarioAtivo;
 
-    public Roles(Usuario usuario, String roles) {
+    public Roles(Usuario usuario, String roles,boolean isUsuarioAtivo) {
         this.usuario = usuario;
         this.roles = roles;
+        this.isUsuarioAtivo = isUsuarioAtivo;
     }
 
 
