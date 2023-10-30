@@ -121,7 +121,7 @@ public class UsuarioController {
             return new  ResponseEntity<>(new Retorno(HttpStatus.INTERNAL_SERVER_ERROR,e.getCause().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-    return ResponseEntity.ok(new Retorno(HttpStatus.OK, ""));
+    return ResponseEntity.ok(new Retorno(HttpStatus.OK, "Senha alterada com sucesso!"));
 
     }
 
