@@ -3,7 +3,8 @@ package com.schoolv.schoolvsystem.enums;
 public enum UserRoles {
     USER("USUARIO"),
     PROFESSOR("PROFESSOR"),
-    ADMIN("ADMIN");
+    ADMIN("ADMIN"),
+    STAFF("STAFF");
 
     private String codigoRole;
 

@@ -49,4 +49,41 @@ public class UsuarioService implements UserDetailsService {
 
     }
 
+
+    public void cadastraProfessor(RegistroUsuarioDTO registroUsuarioDTO) {
+        try {
+            UserDetails usuarioExiste = usuarioRepository.findByLogin(registroUsuarioDTO.getEmail());
+            if(usuarioExiste != null){
+                throw new ExceptionGenerica("O usuario já existe! Favor solicitar redefinição de senha");
+            }
+            String encodePassword = passwordEncoder.encode(registroUsuarioDTO.getSenha());
+            Usuario usuario = new Usuario(registroUsuarioDTO.getEmail(),encodePassword);
+            usuario = usuarioRepository.save(usuario);
+            roleRepository.save(new Roles(usuario, UserRoles.PROFESSOR.getCodigoRole(),true));
+
+        }catch (Exception e){
+            throw new ExceptionGenerica("Erro ao cadastrar usuario ",e);
+        }
+
+
+    }
+
+    public void cadastraStaff(RegistroUsuarioDTO registroUsuarioDTO) {
+        try {
+            UserDetails usuarioExiste = usuarioRepository.findByLogin(registroUsuarioDTO.getEmail());
+            if(usuarioExiste != null){
+                throw new ExceptionGenerica("O usuario já existe! Favor solicitar redefinição de senha");
+            }
+            String encodePassword = passwordEncoder.encode(registroUsuarioDTO.getSenha());
+            Usuario usuario = new Usuario(registroUsuarioDTO.getEmail(),encodePassword);
+            usuario = usuarioRepository.save(usuario);
+            roleRepository.save(new Roles(usuario, UserRoles.STAFF.getCodigoRole(),true));
+
+        }catch (Exception e){
+            throw new ExceptionGenerica("Erro ao cadastrar usuario ",e);
+        }
+
+
+    }
+
 }

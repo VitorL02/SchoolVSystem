@@ -44,10 +44,32 @@ public class UsuarioController {
 
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity realizarCadastro(@RequestBody @Valid RegistroUsuarioDTO registroUsuarioDTO){
         try{
             usuarioService.cadastraUsuario(registroUsuarioDTO);
+        }catch (Exception e){
+            return new  ResponseEntity<>(new Retorno(HttpStatus.INTERNAL_SERVER_ERROR,e.getCause().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return ResponseEntity.ok(new Retorno(HttpStatus.OK,"Usuario cadastrado com sucesso"));
+
+    }
+
+    @PostMapping("/register/professor")
+    public ResponseEntity realizarCadastroProfessor(@RequestBody @Valid RegistroUsuarioDTO registroUsuarioDTO){
+        try{
+            usuarioService.cadastraProfessor(registroUsuarioDTO);
+        }catch (Exception e){
+            return new  ResponseEntity<>(new Retorno(HttpStatus.INTERNAL_SERVER_ERROR,e.getCause().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return ResponseEntity.ok(new Retorno(HttpStatus.OK,"Usuario cadastrado com sucesso"));
+
+    }
+
+    @PostMapping("/register/staff")
+    public ResponseEntity realizarCadastroStaff(@RequestBody @Valid RegistroUsuarioDTO registroUsuarioDTO){
+        try{
+            usuarioService.cadastraStaff(registroUsuarioDTO);
         }catch (Exception e){
             return new  ResponseEntity<>(new Retorno(HttpStatus.INTERNAL_SERVER_ERROR,e.getCause().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
         }

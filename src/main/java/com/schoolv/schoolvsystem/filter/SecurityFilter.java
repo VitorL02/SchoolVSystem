@@ -26,16 +26,25 @@ public class SecurityFilter  extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var tokenJWT = recuperarToken(request);
-        if(tokenJWT != null ){
-            var subject = tokenService.getSubject(tokenJWT);
-            var usuario = usuarioRepository.findByLogin(subject);
-            var authentication = new UsernamePasswordAuthenticationToken(usuario,null,usuario.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
-        //TODO usar o request uri para validar a permissão nesse unico filtro
+        try{
+            var tokenJWT = recuperarToken(request);
+            if(tokenJWT != null ){
+                var subject = tokenService.getSubject(tokenJWT);
+                var usuario = usuarioRepository.findByLogin(subject);
+                var authentication = new UsernamePasswordAuthenticationToken(usuario,null,usuario.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            //TODO usar o request uri para validar a permissão nesse unico filtro
 
-        filterChain.doFilter(request,response);
+            filterChain.doFilter(request,response);
+
+        }catch (Exception e){
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("Usuario não autorizado");
+            response.getWriter().flush();
+        }
+
     }
 
     private String recuperarToken(HttpServletRequest request) {

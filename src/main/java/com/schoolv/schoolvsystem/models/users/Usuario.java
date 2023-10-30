@@ -36,14 +36,15 @@ public class Usuario  implements UserDetails {
         this.senha = senha;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(role != null && role.getRoles().equalsIgnoreCase("PROFESSOR")){
-            return List.of(new SimpleGrantedAuthority("ROLE_STAFF"));
+        if(role != null && ( role.getRoles().equalsIgnoreCase("PROFESSOR") || role.getRoles().equalsIgnoreCase("STAFF"))){
+            return List.of(new SimpleGrantedAuthority("STAFF"),new SimpleGrantedAuthority("ROLE_STAFF"));
         }else if(role != null && role.getRoles().equalsIgnoreCase("ADMIN")) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+            return List.of(new SimpleGrantedAuthority("ADMIN"), new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("USER"),new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
