@@ -35,6 +35,8 @@ public class SecurityConfiguration {
                             .requestMatchers("/swagger-ui.html").permitAll()
                             .requestMatchers("/v3/**").permitAll()
                             .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
+                            .requestMatchers(HttpMethod.POST,"/users/recover_password_code").permitAll()
+                            .requestMatchers(HttpMethod.POST,"/users/recover_password").permitAll()
                             .requestMatchers(HttpMethod.POST,"/users/register/staff").hasAnyRole("ADMIN")
                             .requestMatchers(HttpMethod.POST,"/users/register/professor").hasAnyRole("STAFF","ADMIN").anyRequest().authenticated()
                     )

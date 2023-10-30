@@ -78,3 +78,10 @@ ALTER TABLE tb_materia_estudante
 ALTER TABLE tb_usuario_roles
   ADD CONSTRAINT fk_tb_usuario_roles_usuario
   FOREIGN KEY (id_usuario) REFERENCES tb_usuarios (id);
+
+
+CREATE TABLE tb_solicitacao_nova_senha(
+      id_solicitacao_nova_senha BIGSERIAL PRIMARY KEY,
+      email_usuario_solicitacao VARCHAR(100) NOT NULL,
+      codigo_solicitacao_senha VARCHAR(7) NOT NULL
+);
