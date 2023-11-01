@@ -34,7 +34,7 @@ CREATE TABLE tb_estudante (
 
 CREATE TABLE tb_usuarios (
   id BIGSERIAL PRIMARY KEY,
-  login VARCHAR(100) NOT NULL,
+  login VARCHAR(100) NOT NULL UNIQUE,
   senha VARCHAR(255) NOT NULL
 );
 
@@ -83,5 +83,20 @@ ALTER TABLE tb_usuario_roles
 CREATE TABLE tb_solicitacao_nova_senha(
       id_solicitacao_nova_senha BIGSERIAL PRIMARY KEY,
       email_usuario_solicitacao VARCHAR(100) NOT NULL,
-      codigo_solicitacao_senha VARCHAR(7) NOT NULL
+      codigo_solicitacao_senha VARCHAR(7) NOT NULL,
+      data_cadastro TIMESTAMP,
 );
+
+
+CREATE TABLE tb_usuario_complemento(
+    id_usuario_complemento BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(255) ,
+    sobrenome VARCHAR(255),
+    data_de_cadastro TIMESTAMP,
+    telefone VARCHAR(20),
+    id_usuario BIGINT
+);
+
+ALTER TABLE tb_usuario_complemento
+  ADD CONSTRAINT fk_tb_usuario
+  FOREIGN KEY (id_usuario) REFERENCES tb_usuarios (id);

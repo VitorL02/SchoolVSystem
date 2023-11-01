@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "tb_solicitacao_nova_senha")
 public class UsuarioRecuperarSenha {
@@ -19,6 +21,9 @@ public class UsuarioRecuperarSenha {
 
     @Column(name = "codigo_solicitacao_senha")
     private String codigoRecuperacao;
+
+    @Column(name="data_cadastro")
+    private Date dataCadastro;
 
     public Long getIdRoleUsuario() {
         return idRoleUsuario;
@@ -42,5 +47,13 @@ public class UsuarioRecuperarSenha {
 
     public void setCodigoRecuperacao(String codigoRecuperacao) {
         this.codigoRecuperacao = codigoRecuperacao;
+    }
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 }

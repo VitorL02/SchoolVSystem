@@ -31,6 +31,8 @@ public class Usuario  implements UserDetails {
     @JoinColumn(name = "id",referencedColumnName = "id_usuario")
     private Roles role;
 
+
+
     public Usuario(String login, String senha) {
         this.login = login;
         this.senha = senha;
