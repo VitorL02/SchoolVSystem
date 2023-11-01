@@ -104,7 +104,7 @@ public class UsuarioService implements UserDetailsService {
             usuarioRecuperarSenha.setCodigoRecuperacao(SchoolSystemUtils.geradorCodigoRecuperacaoSenha());
             UsuarioRecuperarSenha usuarioRecuperacao = recuperarSenhaRepository.save(usuarioRecuperarSenha);
             //TODO chamar o serviço de envio de emails
-
+            //TODO chamar o serviço de enviar sms
             codigoRecuperacao = usuarioRecuperacao.getCodigoRecuperacao();
         }catch (Exception e){
             throw new ExceptionGenerica("Erro ao recuperar senha do usuario ",e);
@@ -127,7 +127,7 @@ public class UsuarioService implements UserDetailsService {
            String encodePassword = passwordEncoder.encode(recuperarSenhaDTO.getNovaSenha());
            usuario.setSenha(encodePassword);
            usuarioRepository.save(usuario);
-
+           recuperarSenhaRepository.delete(usuarioRecuperacao);
        }catch (Exception e){
            throw new ExceptionGenerica("Erro ao redifinir senha do usuario ",e);
        }
