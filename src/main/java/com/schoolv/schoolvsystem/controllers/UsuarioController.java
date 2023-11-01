@@ -3,14 +3,12 @@ package com.schoolv.schoolvsystem.controllers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.schoolv.schoolvsystem.dtos.DadosAutenticacaoDTO;
-import com.schoolv.schoolvsystem.dtos.DadosTokenJWT;
-import com.schoolv.schoolvsystem.dtos.RegistroUsuarioDTO;
-import com.schoolv.schoolvsystem.dtos.Retorno;
+import com.schoolv.schoolvsystem.dtos.*;
 import com.schoolv.schoolvsystem.infra.SecurityConfiguration;
 import com.schoolv.schoolvsystem.infra.TokenService;
 import com.schoolv.schoolvsystem.models.users.Usuario;
 import com.schoolv.schoolvsystem.services.UsuarioService;
+import com.schoolv.schoolvsystem.utils.SchoolSystemUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -95,6 +93,35 @@ public class UsuarioController {
             return new  ResponseEntity<>(new Retorno(HttpStatus.INTERNAL_SERVER_ERROR,e.getCause().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return ResponseEntity.ok(new Retorno(HttpStatus.OK,"Usuario cadastrado com sucesso"));
+
+    }
+
+    @PostMapping(value = "/recover_password_code",name = USUARIOS)
+    @Tag(name=USUARIOS)
+    @Operation(summary = USUARIO_REGISTRAR_STAFF_RESUMO,description = USUARIO_REGISTRAR_STAFF_DESCRICAO)
+    public ResponseEntity geraCodigoRecuperacaoSenha(@RequestBody @Valid GerarRecuperacaoSenhaDTO gerarRecuperacaoSenhaDTO){
+        String codigoRecuperacao = "";
+        try{
+            codigoRecuperacao = usuarioService.geraCodigoRecuperacaoSenha(gerarRecuperacaoSenhaDTO);
+        }catch (Exception e){
+            return new  ResponseEntity<>(new Retorno(HttpStatus.INTERNAL_SERVER_ERROR,e.getCause().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        CodigoRecuperacaoDTO codigoRecuperacaoDTO = new CodigoRecuperacaoDTO(codigoRecuperacao);
+        return ResponseEntity.ok(new Retorno(HttpStatus.OK, SchoolSystemUtils.RECUPERACAO_SENHA_MENSAGEM,codigoRecuperacaoDTO));
+
+    }
+
+    @PostMapping(value = "/recover_password",name = USUARIOS)
+    @Tag(name=USUARIOS)
+    @Operation(summary = USUARIO_REGISTRAR_STAFF_RESUMO,description = USUARIO_REGISTRAR_STAFF_DESCRICAO)
+    public ResponseEntity recuperaSenha(@RequestBody @Valid RecuperarSenhaDTO recuperarSenhaDTO){
+        try{
+            usuarioService.recuperaSenhaUsuario(recuperarSenhaDTO);
+        }catch (Exception e){
+            return new  ResponseEntity<>(new Retorno(HttpStatus.INTERNAL_SERVER_ERROR,e.getCause().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    return ResponseEntity.ok(new Retorno(HttpStatus.OK, "Senha alterada com sucesso!"));
 
     }
 
